@@ -10,8 +10,8 @@ public class Calculator {
 	private boolean isRun,isTrue;
 	private String operator, retVal;
 	private boolean flag;
-	
-	public Calculator() {
+	public Calculator() {}
+	public Calculator(boolean r) {
 		String d_n1="",d_n2="";
 		reg_Num = Pattern.compile("-?\\d+(\\.\\d+)?");
 		reg_Operator = Pattern.compile("[!-+*\\/]");
@@ -31,7 +31,7 @@ public class Calculator {
 			System.out.println("Operator: +, -, *, /");
             operator = sc.nextLine().toLowerCase();
             if(!isOperator(operator)) {
-            	System.out.print("You're done, get out");
+            	System.out.print("Invalide input, program shutting down");
             	setRun(false);
             	break;
             }
@@ -82,7 +82,8 @@ public class Calculator {
 		}
 	}
 
-	private void addition(String d_n1, String d_n2) {
+
+	public void addition(String d_n1, String d_n2) {
 		isTrue = isNumeric(d_n1);
 		retVal = d_n1;
 		while(!isTrue) {
@@ -100,7 +101,7 @@ public class Calculator {
 		d_num2=Double.parseDouble(retVal);
 		setD_result(d_num1+d_num2);
 	}
-	private void subtraction(String d_n1, String d_n2) {
+	public void subtraction(String d_n1, String d_n2) {
 		isTrue = isNumeric(d_n1);
 		retVal = d_n1;
 		while(!isTrue) {
@@ -118,7 +119,7 @@ public class Calculator {
 		d_num2=Double.parseDouble(retVal);
 		setD_result(d_num1-d_num2);
 	}
-	private void multiplication(String d_n1, String d_n2) {
+	public void multiplication(String d_n1, String d_n2) {
 		retVal = d_n1;
 		isTrue = isNumeric(d_n1);
 		while(!isTrue) {
@@ -137,7 +138,7 @@ public class Calculator {
 		setD_result(d_num1*d_num2);
 	}
 	
-	private void division(String d_n1, String d_n2){
+	public void division(String d_n1, String d_n2){
 		retVal = d_n1;
 		isTrue = isNumeric(d_n1);
 		while(!isTrue) {
@@ -165,7 +166,15 @@ public class Calculator {
 	private void printResult() {
 		System.out.println("Result:"+getD_result());
 	}
+	
 	/* Validate operators*/
+	public void setD_num1(double d_num1) {
+		this.d_num1 = d_num1;
+	}
+	public void setD_num2(double d_num2) {
+		this.d_num2 = d_num2;
+	}
+
 	private boolean isOperator(String str_oper) {
 		if(str_oper==null||str_oper.equals("")) {
 			return false;
