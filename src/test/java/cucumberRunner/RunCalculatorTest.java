@@ -14,7 +14,5 @@ import io.cucumber.junit.CucumberOptions;
     tags = "@test")
 
 public class RunCalculatorTest {
-	public static void main(String[] args) {
-		Calculator cal = new Calculator();
-	}
+
 }

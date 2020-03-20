@@ -35,8 +35,9 @@ public class Calculator {
             	setRun(false);
             	break;
             }
-     
+            setOperator(operator);
             switch(operator) {
+            
 	            case "+":
 	            	System.out.println("Enter first number: ");
 	            	d_n1 = sc.nextLine();
@@ -175,14 +176,14 @@ public class Calculator {
 		this.d_num2 = d_num2;
 	}
 
-	private boolean isOperator(String str_oper) {
+	public boolean isOperator(String str_oper) {
 		if(str_oper==null||str_oper.equals("")) {
 			return false;
 		}
 		return reg_Operator.matcher(str_oper).matches();
 	}
 	/* Validate input*/
-	private boolean isNumeric(String str_num) {
+	public boolean isNumeric(String str_num) {
 		if(str_num==null||str_num.equals("")) {
 			return false;
 		}
@@ -209,5 +210,11 @@ public class Calculator {
 	}
 	public void setD_result(double d_result) {
 		this.d_result = d_result;
+	}
+	public void setOperator(String operator) {
+		this.operator = operator;
+	}
+	public String getOperator() {
+		return operator;
 	}
 }
