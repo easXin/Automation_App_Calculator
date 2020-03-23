@@ -1,5 +1,6 @@
 package com.project1.calculator;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -10,11 +11,14 @@ public class Calculator {
 	private boolean isRun,isTrue;
 	private String operator, retVal;
 	private boolean flag;
-	public Calculator() {}
+	public Calculator() {
+		reg_Num = Pattern.compile("^[-+]?[0-9]*\\.?[0-9]+$");
+		reg_Operator = Pattern.compile("[-+*/]");
+	}
 	public Calculator(boolean r) {
 		String d_n1="",d_n2="";
-		reg_Num = Pattern.compile("-?\\d+(\\.\\d+)?");
-		reg_Operator = Pattern.compile("[!-+*\\/]");
+		reg_Num = Pattern.compile("^[-+]?[0-9]*\\.?[0-9]+$");
+		reg_Operator = Pattern.compile("[-+*/]");
 		sc = new Scanner(System.in);
 		isRun = true;
 		operator="";
@@ -43,7 +47,7 @@ public class Calculator {
 	            	d_n1 = sc.nextLine();
 	            	System.out.println("Enter second number: ");
 	            	d_n2 = sc.nextLine();
-	            	addition(d_n1,d_n2);
+	            	addition(false,d_n1,d_n2);
 	            	printResult();
 	            	break;
 	            case "-":
@@ -51,7 +55,7 @@ public class Calculator {
 	            	d_n1 = sc.nextLine();
 	            	System.out.println("Enter second number: ");
 	            	d_n2 = sc.nextLine();
-	            	subtraction(d_n1,d_n2);
+	            	subtraction(false,d_n1,d_n2);
 	            	printResult();
 	            	break;
 	            case "*":
@@ -59,7 +63,7 @@ public class Calculator {
 	            	d_n1 = sc.nextLine();
 	            	System.out.println("Enter second number: ");
 	            	d_n2 = sc.nextLine();
-	            	multiplication(d_n1,d_n2);
+	            	multiplication(false,d_n1,d_n2);
 	            	printResult();
 	            	break;
 	            case "/":
@@ -67,7 +71,7 @@ public class Calculator {
 	            	d_n1 = sc.nextLine();
 	            	System.out.println("Enter second number: ");
 	            	d_n2 = sc.nextLine();
-	            	division(d_n1,d_n2);
+	            	division(false,d_n1,d_n2);
 	            	printResult();
 	            	break;
 	            case "!":
@@ -84,83 +88,95 @@ public class Calculator {
 	}
 
 
-	public void addition(String d_n1, String d_n2) {
-		isTrue = isNumeric(d_n1);
-		retVal = d_n1;
-		while(!isTrue) {
-			System.out.println("Invalid input\nRe-enter first number :");
-			retVal = sc.nextLine();
-			isTrue= isNumeric(retVal);
+	public void addition(Boolean unitFlag, String d_n1, String d_n2) {
+		if(!unitFlag) {
+			isTrue = isNumeric(d_n1);
+			retVal = d_n1;
+			while(!isTrue) {
+				System.out.println("Invalid input\nRe-enter first number :");
+				retVal = sc.nextLine();
+				isTrue= isNumeric(retVal);
+			}
+			d_num1=Double.parseDouble(retVal);
+			isTrue = isNumeric(d_n2);
+			while(!isTrue) {
+				System.out.println("Invalid input\nRe-enter second number :");
+				retVal = sc.nextLine();
+				isTrue= isNumeric(retVal);
+			}
+			d_num2=Double.parseDouble(retVal);
+			setD_result(d_num1+d_num2);
 		}
-		d_num1=Double.parseDouble(retVal);
-		isTrue = isNumeric(d_n2);
-		while(!isTrue) {
-			System.out.println("Invalid input\nRe-enter second number :");
-			retVal = sc.nextLine();
-			isTrue= isNumeric(retVal);
-		}
-		d_num2=Double.parseDouble(retVal);
-		setD_result(d_num1+d_num2);
+		setD_result(Double.parseDouble(d_n1)+Double.parseDouble(d_n2));
 	}
-	public void subtraction(String d_n1, String d_n2) {
-		isTrue = isNumeric(d_n1);
-		retVal = d_n1;
-		while(!isTrue) {
-			System.out.println("Invalid input\nEnter a new number :");
-			retVal = sc.nextLine();
-			isTrue= isNumeric(retVal);
+	public void subtraction(Boolean unitFlag, String d_n1, String d_n2) {
+		if(!unitFlag) {
+			isTrue = isNumeric(d_n1);
+			retVal = d_n1;
+			while(!isTrue) {
+				System.out.println("Invalid input\nEnter a new number :");
+				retVal = sc.nextLine();
+				isTrue= isNumeric(retVal);
+			}
+			d_num1=Double.parseDouble(retVal);
+			isTrue = isNumeric(d_n2);
+			while(!isTrue) {
+				System.out.println("Invalid input\nRe-enter second number :");
+				retVal = sc.nextLine();
+				isTrue= isNumeric(retVal);
+			}
+			d_num2=Double.parseDouble(retVal);
+			setD_result(d_num1-d_num2);
 		}
-		d_num1=Double.parseDouble(retVal);
-		isTrue = isNumeric(d_n2);
-		while(!isTrue) {
-			System.out.println("Invalid input\nRe-enter second number :");
-			retVal = sc.nextLine();
-			isTrue= isNumeric(retVal);
-		}
-		d_num2=Double.parseDouble(retVal);
-		setD_result(d_num1-d_num2);
+		setD_result(Double.parseDouble(d_n1)-Double.parseDouble(d_n2));
 	}
-	public void multiplication(String d_n1, String d_n2) {
-		retVal = d_n1;
-		isTrue = isNumeric(d_n1);
-		while(!isTrue) {
-			System.out.println("Invalid input\nRe-enter first number :");
-			retVal = sc.nextLine();
-			isTrue= isNumeric(retVal);
+	public void multiplication(Boolean unitFlag, String d_n1, String d_n2) {
+		if(!unitFlag) {
+			retVal = d_n1;
+			isTrue = isNumeric(d_n1);
+			while(!isTrue) {
+				System.out.println("Invalid input\nRe-enter first number :");
+				retVal = sc.nextLine();
+				isTrue= isNumeric(retVal);
+			}
+			d_num1=Double.parseDouble(retVal);
+			isTrue = isNumeric(d_n2);
+			while(!isTrue) {
+				System.out.println("Invalid input\nRe-enter second number :");
+				retVal = sc.nextLine();
+				isTrue= isNumeric(retVal);
+			}
+			d_num2=Double.parseDouble(retVal);
+			setD_result(d_num1*d_num2);
 		}
-		d_num1=Double.parseDouble(retVal);
-		isTrue = isNumeric(d_n2);
-		while(!isTrue) {
-			System.out.println("Invalid input\nRe-enter second number :");
-			retVal = sc.nextLine();
-			isTrue= isNumeric(retVal);
-		}
-		d_num2=Double.parseDouble(retVal);
-		setD_result(d_num1*d_num2);
+		setD_result(Double.parseDouble(d_n1)*Double.parseDouble(d_n2));
 	}
 	
-	public void division(String d_n1, String d_n2){
-		retVal = d_n1;
-		isTrue = isNumeric(d_n1);
-		while(!isTrue) {
-			System.out.println("Invalid input\nRe-enter first number :");
-			retVal = sc.nextLine();
-			isTrue= isNumeric(retVal);
-		}
-		d_num1=Double.parseDouble(retVal);
-		isTrue = isNumeric(d_n2);
-		boolean isFalse = true;
-		while(isFalse) {
-			if(isNumeric(retVal)&&Double.parseDouble(retVal)==0) {
-				isFalse = false;
+	public void division(Boolean unitFlag, String d_n1, String d_n2){
+		if(!unitFlag) {
+			retVal = d_n1;
+			isTrue = isNumeric(d_n1);
+			while(!isTrue) {
+				System.out.println("Invalid input\nRe-enter first number :");
+				retVal = sc.nextLine();
+				isTrue= isNumeric(retVal);
 			}
-			System.out.println("Invalid input\nRe-enter second number[not zero] :");
-			retVal = sc.nextLine();
-			isTrue = isNumeric(retVal);
-			
+			d_num1=Double.parseDouble(retVal);
+			isTrue = isNumeric(d_n2);
+			boolean isFalse = true;
+			while(isFalse) {
+				if(isNumeric(retVal)&&Double.parseDouble(retVal)==0) {
+					isFalse = false;
+				}
+				System.out.println("Invalid input\nRe-enter second number[not zero] :");
+				retVal = sc.nextLine();
+				isTrue = isNumeric(retVal);
+				
+			}
+			d_num2=Double.parseDouble(retVal);
+			setD_result(d_num1/d_num2);
 		}
-		d_num2=Double.parseDouble(retVal);
-		setD_result(d_num1/d_num2);
+		setD_result(Double.parseDouble(d_n1)/Double.parseDouble(d_n2));
 	}
 
 
@@ -216,5 +232,13 @@ public class Calculator {
 	}
 	public String getOperator() {
 		return operator;
+	}
+	private  BigDecimal truncateDecimal(double x,int numberofDecimals)
+	{
+	    if ( x > 0) {
+	        return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_FLOOR);
+	    } else {
+	        return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_CEILING);
+	    }
 	}
 }
